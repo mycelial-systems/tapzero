@@ -1,6 +1,6 @@
 {
   "name": "@substrate-system/tapzero",
-  "version": "0.10.16",
+  "version": "0.10.17",
   "description": "Smallest test library",
   "main": "dist/index.js",
   "type": "module",

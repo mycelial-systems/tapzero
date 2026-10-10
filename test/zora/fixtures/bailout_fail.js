@@ -8,6 +8,6 @@ test('will not go to the end', function (t) {
     t.fail('should never be reached')
 });
 
-test('another one', t => {
-    t.fail('should never be reported');
+test('the next test still runs', t => {
+    t.ok(true, 'runs after the throw');
 });

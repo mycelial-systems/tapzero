@@ -1,14 +1,25 @@
 TAP version 13
 # will not go to the end
 ok 1 okay
-file://$TAPE/index.js:$LINE
-  function rethrow () { throw err }
-                        ^
+not ok 2 Oh no!
+  ---
+    operator: error
+    expected: undefined
+    actual:   "Oh no!"
+    at:       Test.fn (file://$TEST/zora/fixtures/bailout_fail.js:$LINE:$COL)
+    stack:    |-
+      Error: Oh no!
+          at Test.fn (file://$TEST/zora/fixtures/bailout_fail.js:$LINE:$COL)
+          at Test.run (file://$TAPE/index.js:$LINE:$COL)
+          at TestRunner.run (file://$TAPE/index.js:$LINE:$COL)
+          at Timeout._onTimeout (file://$TAPE/index.js:$LINE:$COL)
+          at listOnTimeout (node:internal/timers:$LINE:$COL)
+          at process.processTimers (node:internal/timers:$LINE:$COL)
+  ...
+# the next test still runs
+ok 3 runs after the throw
 
-Error: Oh no!
-    at Test.fn (file://$TEST/zora/fixtures/bailout_fail.js:$LINE:$COL)
-    at Test.run (file://$TAPE/index.js:$LINE:$COL)
-    at TestRunner.run (file://$TAPE/index.js:$LINE:$COL)
-    at Timeout._onTimeout (file://$TAPE/index.js:$LINE:$COL)
-    at listOnTimeout (node:internal/timers:$LINE:$COL)
-    at process.processTimers (node:internal/timers:$LINE:$COL)
+1..3
+# tests 3
+# pass  2
+# fail  1

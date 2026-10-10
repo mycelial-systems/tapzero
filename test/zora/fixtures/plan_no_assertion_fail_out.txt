@@ -1,12 +1,18 @@
 TAP version 13
 # Make a plan, don't do any assertions
-file://$TAPE/index.js:$LINE
-  function rethrow () { throw err }
-                        ^
+not ok 1 Test timed out after 5000 ms
+  ---
+    operator: plan
+    expected: 1
+    actual:   0
+    stack:    |-
+      Error: Test timed out after 5000 ms
+          at Test._assert (file://$TAPE/index.js:$LINE:$COL)
+          at Test.run (file://$TAPE/index.js:$LINE:$COL)
+          at async TestRunner.run (file://$TAPE/index.js:$LINE:$COL)
+  ...
 
-Error: Test timed out after 5000 ms
-            planned: 1
-            actual: 0
-          
-    at Test.run (file://$TAPE/index.js:$LINE:$COL)
-    at async TestRunner.run (file://$TAPE/index.js:$LINE:$COL)
+1..1
+# tests 1
+# pass  0
+# fail  1

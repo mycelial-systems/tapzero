@@ -3,16 +3,27 @@ TAP version 13
 ok 1 should be truthy
 ok 2 should be truthy
 ok 3 should be truthy
-file://$TAPE/index.js:$LINE
-  function rethrow () { throw err }
-                        ^
+not ok 4 More tests than planned in TEST *Call .plan, execute too many tests*
+  ---
+    operator: error
+    expected: |-
+      undefined
+    actual:   |-
+      "More tests than planned in TEST *Call .plan, execute too many tests*"
+    at:       Test.fn (file://$TEST/zora/fixtures/plan_too_many_fail.js:$LINE:$COL)
+    stack:    |-
+      Error: More tests than planned in TEST *Call .plan, execute too many tests*
+          at Test._assert (file://$TAPE/index.js:$LINE:$COL)
+          at Test.ok (file://$TAPE/index.js:$LINE:$COL)
+          at Test.fn (file://$TEST/zora/fixtures/plan_too_many_fail.js:$LINE:$COL)
+          at Test.run (file://$TAPE/index.js:$LINE:$COL)
+          at TestRunner.run (file://$TAPE/index.js:$LINE:$COL)
+          at Timeout._onTimeout (file://$TAPE/index.js:$LINE:$COL)
+          at listOnTimeout (node:internal/timers:$LINE:$COL)
+          at process.processTimers (node:internal/timers:$LINE:$COL)
+  ...
 
-Error: More tests than planned in TEST *Call .plan, execute too many tests*
-    at Test._assert (file://$TAPE/index.js:$LINE:$COL)
-    at Test.ok (file://$TAPE/index.js:$LINE:$COL)
-    at Test.fn (file://$TEST/zora/fixtures/plan_too_many_fail.js:$LINE:$COL)
-    at Test.run (file://$TAPE/index.js:$LINE:$COL)
-    at TestRunner.run (file://$TAPE/index.js:$LINE:$COL)
-    at Timeout._onTimeout (file://$TAPE/index.js:$LINE:$COL)
-    at listOnTimeout (node:internal/timers:$LINE:$COL)
-    at process.processTimers (node:internal/timers:$LINE:$COL)
+1..4
+# tests 4
+# pass  3
+# fail  1
