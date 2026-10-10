@@ -83,7 +83,7 @@ test('zerotap handles failures', (assert) => {
    * @returns {void}
    */
   function verify (actual) {
-    assert.equal(actual, 'TAP version 13\n# zero\nok 1 should be truthy\n# passing\nok 2 this test passes\n# two\nnot ok 3 this test fails\n  ---\n    operator: equal\n    expected: "two"\n    actual:   "one"\n    stack:    |-\n      Error: this test fails\n          at Test._assert (file://$TAPE/index.js:$LINE:$COL)\n          at Test.equal (file://$TAPE/index.js:$LINE:$COL)\n          at Test._ [as fn] (file://$TEST/unit/smoke.js:$LINE:$COL)\n          at Test.run (file://$TAPE/index.js:$LINE:$COL)\n          at TestRunner.run (file://$TAPE/index.js:$LINE:$COL)\n  ...\n\n1..3\n# tests 3\n# pass  2\n# fail  1')
+    assert.equal(actual, 'TAP version 13\n# zero\nok 1 should be truthy\n# passing\nok 2 this test passes\n# two\nnot ok 3 this test fails\n  ---\n    operator: equal\n    expected: "two"\n    actual:   "one"\n    at:       Test._ [as fn] (file://$TEST/unit/smoke.js:$LINE:$COL)\n    stack:    |-\n      Error: this test fails\n          at Test._assert (file://$TAPE/index.js:$LINE:$COL)\n          at Test.equal (file://$TAPE/index.js:$LINE:$COL)\n          at Test._ [as fn] (file://$TEST/unit/smoke.js:$LINE:$COL)\n          at Test.run (file://$TAPE/index.js:$LINE:$COL)\n          at TestRunner.run (file://$TAPE/index.js:$LINE:$COL)\n  ...\n\n1..3\n# tests 3\n# pass  2\n# fail  1')
     assert.end()
   }
 })
@@ -107,6 +107,7 @@ test('zerotap handles errors', (assert) => {
             operator: ifError
             expected: "no error"
             actual:   "foo"
+            at:       Test._ [as fn] (file://$TEST/unit/smoke.js:$LINE:$COL)
             stack:    |-
               Error: foo
                   at Test._ [as fn] (file://$TEST/unit/smoke.js:$LINE:$COL)
@@ -140,7 +141,7 @@ test('zerotap handles multiple asserts', (assert) => {
    * @returns {void}
    */
   function verify (actual) {
-    const expect = 'TAP version 13\n# test one\nok 1 should be truthy\nok 2 message\nnot ok 3 some message\n  ---\n    operator: ok\n    expected: "truthy value"\n    actual:   false\n    stack:    |-\n      Error: some message\n          at Test._assert (file://$TAPE/index.js:$LINE:$COL)\n          at Test.ok (file://$TAPE/index.js:$LINE:$COL)\n          at Test._ [as fn] (file://$TEST/unit/smoke.js:$LINE:$COL)\n          at Test.run (file://$TAPE/index.js:$LINE:$COL)\n          at TestRunner.run (file://$TAPE/index.js:$LINE:$COL)\n          at Timeout._onTimeout (file://$TAPE/index.js:$LINE:$COL)\n          at listOnTimeout (node:internal/timers:$LINE:$COL)\n          at process.processTimers (node:internal/timers:$LINE:$COL)\n  ...\n\n1..3\n# tests 3\n# pass  2\n# fail  1'
+    const expect = 'TAP version 13\n# test one\nok 1 should be truthy\nok 2 message\nnot ok 3 some message\n  ---\n    operator: ok\n    expected: "truthy value"\n    actual:   false\n    at:       Test._ [as fn] (file://$TEST/unit/smoke.js:$LINE:$COL)\n    stack:    |-\n      Error: some message\n          at Test._assert (file://$TAPE/index.js:$LINE:$COL)\n          at Test.ok (file://$TAPE/index.js:$LINE:$COL)\n          at Test._ [as fn] (file://$TEST/unit/smoke.js:$LINE:$COL)\n          at Test.run (file://$TAPE/index.js:$LINE:$COL)\n          at TestRunner.run (file://$TAPE/index.js:$LINE:$COL)\n          at Timeout._onTimeout (file://$TAPE/index.js:$LINE:$COL)\n          at listOnTimeout (node:internal/timers:$LINE:$COL)\n          at process.processTimers (node:internal/timers:$LINE:$COL)\n  ...\n\n1..3\n# tests 3\n# pass  2\n# fail  1'
     assert.equal(actual, expect)
     assert.end()
   }
@@ -232,7 +233,7 @@ test('zerotap undefined is string', (assert) => {
    * @returns {void}
    */
   function verify (actual) {
-    const expect = 'TAP version 13\n# test one\nnot ok 1 should be equal\n  ---\n    operator: equal\n    expected: "foo"\n    actual:   undefined\n    stack:    |-\n      Error: should be equal\n          at Test._assert (file://$TAPE/index.js:$LINE:$COL)\n          at Test.equal (file://$TAPE/index.js:$LINE:$COL)\n          at Test.fn (file://$TEST/unit/smoke.js:$LINE:$COL)\n          at Test.run (file://$TAPE/index.js:$LINE:$COL)\n          at TestRunner.run (file://$TAPE/index.js:$LINE:$COL)\n          at Timeout._onTimeout (file://$TAPE/index.js:$LINE:$COL)\n          at listOnTimeout (node:internal/timers:$LINE:$COL)\n          at process.processTimers (node:internal/timers:$LINE:$COL)\n  ...\n\n1..1\n# tests 1\n# pass  0\n# fail  1'
+    const expect = 'TAP version 13\n# test one\nnot ok 1 should be equal\n  ---\n    operator: equal\n    expected: "foo"\n    actual:   undefined\n    at:       Test.fn (file://$TEST/unit/smoke.js:$LINE:$COL)\n    stack:    |-\n      Error: should be equal\n          at Test._assert (file://$TAPE/index.js:$LINE:$COL)\n          at Test.equal (file://$TAPE/index.js:$LINE:$COL)\n          at Test.fn (file://$TEST/unit/smoke.js:$LINE:$COL)\n          at Test.run (file://$TAPE/index.js:$LINE:$COL)\n          at TestRunner.run (file://$TAPE/index.js:$LINE:$COL)\n          at Timeout._onTimeout (file://$TAPE/index.js:$LINE:$COL)\n          at listOnTimeout (node:internal/timers:$LINE:$COL)\n          at process.processTimers (node:internal/timers:$LINE:$COL)\n  ...\n\n1..1\n# tests 1\n# pass  0\n# fail  1'
     assert.equal(actual, expect)
     assert.end()
   }
@@ -251,7 +252,7 @@ test('zerotap fail', (assert) => {
    */
   function verify (actual) {
 
-    const expect = 'TAP version 13\n# test one\nnot ok 1 my message\n  ---\n    operator: fail\n    expected: "fail not called"\n    actual:   "fail called"\n    stack:    |-\n      Error: my message\n          at Test._assert (file://$TAPE/index.js:$LINE:$COL)\n          at Test.fail (file://$TAPE/index.js:$LINE:$COL)\n          at Test._ [as fn] (file://$TEST/unit/smoke.js:$LINE:$COL)\n          at Test.run (file://$TAPE/index.js:$LINE:$COL)\n          at TestRunner.run (file://$TAPE/index.js:$LINE:$COL)\n          at Timeout._onTimeout (file://$TAPE/index.js:$LINE:$COL)\n          at listOnTimeout (node:internal/timers:$LINE:$COL)\n          at process.processTimers (node:internal/timers:$LINE:$COL)\n  ...\n\n1..1\n# tests 1\n# pass  0\n# fail  1'
+    const expect = 'TAP version 13\n# test one\nnot ok 1 my message\n  ---\n    operator: fail\n    expected: "fail not called"\n    actual:   "fail called"\n    at:       Test._ [as fn] (file://$TEST/unit/smoke.js:$LINE:$COL)\n    stack:    |-\n      Error: my message\n          at Test._assert (file://$TAPE/index.js:$LINE:$COL)\n          at Test.fail (file://$TAPE/index.js:$LINE:$COL)\n          at Test._ [as fn] (file://$TEST/unit/smoke.js:$LINE:$COL)\n          at Test.run (file://$TAPE/index.js:$LINE:$COL)\n          at TestRunner.run (file://$TAPE/index.js:$LINE:$COL)\n          at Timeout._onTimeout (file://$TAPE/index.js:$LINE:$COL)\n          at listOnTimeout (node:internal/timers:$LINE:$COL)\n          at process.processTimers (node:internal/timers:$LINE:$COL)\n  ...\n\n1..1\n# tests 1\n# pass  0\n# fail  1'
 
     assert.equal(actual, expect)
     assert.end()

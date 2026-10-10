@@ -2,13 +2,29 @@ TAP version 13
 # Timeout before the planned number
 ok 1 should be truthy
 ok 2 should be truthy
-file://$TAPE/index.js:$LINE
-  function rethrow () { throw err }
-                        ^
+not ok 3 Test timed out after 5000 ms
+  ---
+    operator: plan
+    expected: 3
+    actual:   2
+    stack:    |-
+      Error: Test timed out after 5000 ms
+          at Test._assert (file://$TAPE/index.js:$LINE:$COL)
+          at Test.run (file://$TAPE/index.js:$LINE:$COL)
+          at async TestRunner.run (file://$TAPE/index.js:$LINE:$COL)
+  ...
 
-Error: Test timed out after 5000 ms
-            planned: 3
-            actual: 2
-          
-    at Test.run (file://$TAPE/index.js:$LINE:$COL)
-    at async TestRunner.run (file://$TAPE/index.js:$LINE:$COL)
+1..3
+# tests 3
+# pass  2
+# fail  1
+file://$TAPE/index.js:$LINE
+      throw new Error(
+      ^
+
+Error: assertion occurred after test was finished: Timeout before the planned number
+    at Test._assert (file://$TAPE/index.js:$LINE:$COL)
+    at Test.ok (file://$TAPE/index.js:$LINE:$COL)
+    at Timeout._onTimeout (file://$TEST/zora/fixtures/plan_timeout_fail.js:$LINE:$COL)
+    at listOnTimeout (node:internal/timers:$LINE:$COL)
+    at process.processTimers (node:internal/timers:$LINE:$COL)

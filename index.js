@@ -11,8 +11,10 @@ const AT_REGEX = new RegExp(
   '^(?:[^\\s]*\\s*\\bat\\s+)' +
     // captures function call description
     '(?:(.*)\\s+\\()?' +
-    // captures file path plus line no
-    '((?:\\/|[a-zA-Z]:\\\\)[^:\\)]+:(\\d+)(?::(\\d+))?)\\)$'
+    // captures file path plus line no. The path can be a file URL,
+    // as in ES module stacks, including file:///C:/ on windows
+    '((?:file:\\/\\/)?(?:\\/(?:[a-zA-Z]:)?|[a-zA-Z]:\\\\)' +
+    '[^:\\)]+:(\\d+)(?::(\\d+))?)\\)$'
 )
 
 /** @type {string} */
@@ -265,6 +267,28 @@ export class Test {
       // this._clearTimeout()
     }
 
+    // create the error here, so its stack starts at the assertion
+    const atErr = pass ? undefined : new Error(description)
+    this._report(pass, actual, expected, description, operator, atErr)
+  }
+
+  /**
+   * Print the TAP line for an assertion and count it. Skips the
+   * plan checks in `_assert`, so it can record an error thrown by
+   * the test function.
+   *
+   * @param {boolean} pass
+   * @param {unknown} actual
+   * @param {unknown} expected
+   * @param {string} description
+   * @param {string} operator
+   * @param {Error} [atErr] Where the failure happened
+   * @returns {void}
+   */
+  _report (
+    pass, actual, expected,
+    description, operator, atErr
+  ) {
     const report = this.runner.report
 
     const prefix = pass ? 'ok' : 'not ok'
@@ -280,7 +304,7 @@ export class Test {
     //   fail
     // --------------------------------------
 
-    const atErr = new Error(description)
+    if (!atErr) atErr = new Error(description)
     let err = atErr
     if (actual && OBJ_TO_STRING.call(actual) === '[object Error]') {
       err = /** @type {Error} */ (actual)
@@ -347,10 +371,16 @@ export class Test {
    */
   async run () {
     this.runner.report('# ' + this.name)
-    const maybeP = this.fn(this)
 
-    if (maybeP && typeof maybeP.then === 'function') {
-      await maybeP
+    try {
+      const maybeP = this.fn(this)
+
+      if (maybeP && typeof maybeP.then === 'function') {
+        await maybeP
+      }
+    } catch (err) {
+      const atErr = err instanceof Error ? err : new Error(String(err))
+      this._report(false, err, undefined, atErr.message, 'error', atErr)
     }
 
     if (this._planned === null) {
@@ -361,18 +391,14 @@ export class Test {
       await this._planPromise
 
       if (this._planned > (this._actual || 0)) {
-        if (this._timedOut) {
-          throw new Error(`Test timed out after ${this.TIMEOUT_MS} ms
-            planned: ${this._planned}
-            actual: ${this._actual || 0}
-          `)
-        }
+        const msg = this._timedOut ?
+          `Test timed out after ${this.TIMEOUT_MS} ms` :
+          'Test ended before the planned number'
 
-        throw new Error(`Test ended before the planned number
-          planned: ${this._planned}
-          actual: ${this._actual || 0}
-        `)
+        this._assert(false, this._actual || 0, this._planned, msg, 'plan')
       }
+
+      this.done = true
     }
 
     return this._result
@@ -514,13 +540,6 @@ export class TestRunner {
       total += result.fail + result.pass
       success += result.pass
       fail += result.fail
-
-      if (
-        test._planned !== null &&
-        (result.fail + result.pass) > test._planned
-      ) {
-        throw new Error(`More tests than planned in TEST *${test.name}*`)
-      }
     }
 
     this.completed = true

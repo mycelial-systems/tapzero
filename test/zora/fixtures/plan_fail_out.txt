@@ -1,16 +1,27 @@
 TAP version 13
 # Plan an incorrect number of tests
 ok 1 should be truthy
-file://$TAPE/index.js:$LINE
-  function rethrow () { throw err }
-                        ^
+not ok 2 More tests than planned in TEST *Plan an incorrect number of tests*
+  ---
+    operator: error
+    expected: |-
+      undefined
+    actual:   |-
+      "More tests than planned in TEST *Plan an incorrect number of tests*"
+    at:       Test.fn (file://$TEST/zora/fixtures/plan_fail.js:$LINE:$COL)
+    stack:    |-
+      Error: More tests than planned in TEST *Plan an incorrect number of tests*
+          at Test._assert (file://$TAPE/index.js:$LINE:$COL)
+          at Test.ok (file://$TAPE/index.js:$LINE:$COL)
+          at Test.fn (file://$TEST/zora/fixtures/plan_fail.js:$LINE:$COL)
+          at Test.run (file://$TAPE/index.js:$LINE:$COL)
+          at TestRunner.run (file://$TAPE/index.js:$LINE:$COL)
+          at Timeout._onTimeout (file://$TAPE/index.js:$LINE:$COL)
+          at listOnTimeout (node:internal/timers:$LINE:$COL)
+          at process.processTimers (node:internal/timers:$LINE:$COL)
+  ...
 
-Error: More tests than planned in TEST *Plan an incorrect number of tests*
-    at Test._assert (file://$TAPE/index.js:$LINE:$COL)
-    at Test.ok (file://$TAPE/index.js:$LINE:$COL)
-    at Test.fn (file://$TEST/zora/fixtures/plan_fail.js:$LINE:$COL)
-    at Test.run (file://$TAPE/index.js:$LINE:$COL)
-    at TestRunner.run (file://$TAPE/index.js:$LINE:$COL)
-    at Timeout._onTimeout (file://$TAPE/index.js:$LINE:$COL)
-    at listOnTimeout (node:internal/timers:$LINE:$COL)
-    at process.processTimers (node:internal/timers:$LINE:$COL)
+1..2
+# tests 2
+# pass  1
+# fail  1

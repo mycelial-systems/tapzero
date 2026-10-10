@@ -1,0 +1,25 @@
+TAP version 13
+# first test passes
+ok 1 before the throw
+# second test throws
+ok 2 an assertion before the throw
+not ok 3 boom from inside a test
+  ---
+    operator: error
+    expected: undefined
+    actual:   "boom from inside a test"
+    at:       Test.fn (file://$TEST/zora/fixtures/throw_continue_fail.js:$LINE:$COL)
+    stack:    |-
+      Error: boom from inside a test
+          at Test.fn (file://$TEST/zora/fixtures/throw_continue_fail.js:$LINE:$COL)
+          at process.processTicksAndRejections (node:internal/process/task_queues:$LINE:$COL)
+          at async Test.run (file://$TAPE/index.js:$LINE:$COL)
+          at async TestRunner.run (file://$TAPE/index.js:$LINE:$COL)
+  ...
+# third test still runs
+ok 4 after the throw
+
+1..4
+# tests 4
+# pass  3
+# fail  1
